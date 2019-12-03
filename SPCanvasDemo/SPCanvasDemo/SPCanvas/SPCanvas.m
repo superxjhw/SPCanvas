@@ -112,7 +112,27 @@
 }
 
 - (void)save {
-    
+    UIImage *image = [self getImage];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error) {
+     ///图片未能保存到本地
+        NSLog(@"SuperLog------ 保存图片失败");
+    }else {
+        NSLog(@"SuperLog------ 已保存");
+    }
+}
+
+- (UIImage *)getImage {
+    CGSize size = self.bounds.size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    CGRect rect = self.frame;
+    [self drawViewHierarchyInRect:rect afterScreenUpdates:NO];
+    UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return snapshotImage;
 }
 
 
