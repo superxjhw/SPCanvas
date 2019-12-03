@@ -18,7 +18,6 @@
 
 @implementation SPCanvasVC
 
-NSString *const kAppColor = @"04c7f7";
 
 - (void)viewDidLoad {
     [super viewDidLoad];

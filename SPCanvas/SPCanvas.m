@@ -67,6 +67,7 @@
     CGPoint midllePoint1 = [self getMidllePointPrePoint:prePoint curPoint:midllePoint];
     CGPoint midllePoint2 = [self getMidllePointPrePoint:curPoint curPoint:midllePoint];
     [self.path addQuadCurveToPoint:midllePoint1 controlPoint:[self getMidllePointPrePoint:self.preMidllePoint2 curPoint:midllePoint1]];
+    [self.path addLineToPoint:midllePoint1];
     [self.path addLineToPoint:midllePoint2];
     self.preMidllePoint2 = midllePoint2;
     CGFloat margin = 80;
@@ -111,7 +112,27 @@
 }
 
 - (void)save {
-    
+    UIImage *image = [self getImage];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error) {
+     ///图片未能保存到本地
+        NSLog(@"SuperLog------ 保存图片失败");
+    }else {
+        NSLog(@"SuperLog------ 已保存");
+    }
+}
+
+- (UIImage *)getImage {
+    CGSize size = self.bounds.size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    CGRect rect = self.frame;
+    [self drawViewHierarchyInRect:rect afterScreenUpdates:NO];
+    UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return snapshotImage;
 }
 
 

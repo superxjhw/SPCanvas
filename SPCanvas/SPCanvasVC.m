@@ -18,7 +18,6 @@
 
 @implementation SPCanvasVC
 
-NSString *const kAppColor = @"04c7f7";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,8 +35,8 @@ NSString *const kAppColor = @"04c7f7";
     self.view.backgroundColor = [UIColor whiteColor];
     
     SPCanvas *canvas = [[SPCanvas alloc] init];
-    canvas.lineWidth = 3;
-    canvas.pathColor = [UIColor orangeColor];
+    canvas.lineWidth = 1;
+    canvas.pathColor = [UIColor blueColor];
     canvas.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:canvas];
     self.canvas = canvas;
@@ -56,6 +55,7 @@ NSString *const kAppColor = @"04c7f7";
             [button setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
         }
         button.backgroundColor = [[UIColor purpleColor] colorWithAlphaComponent:.6];
+        [button setTitleColor:[UIColor orangeColor] forState:UIControlStateHighlighted];
         [button setTitle:titles[i] forState:UIControlStateNormal];
         [button addTarget:self action:NSSelectorFromString(titles[i]) forControlEvents:UIControlEventTouchUpInside];
         [stackView addArrangedSubview:button];
