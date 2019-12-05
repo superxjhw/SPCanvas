@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableArray *paths;
 @property (nonatomic, strong) NSMutableArray *cancles;
 @property (nonatomic, assign) CGPoint preMidllePoint2;
+@property (nonatomic, assign) CGPoint lastPoint;
 
 @end
 
@@ -37,6 +38,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     CGPoint curPoint = [[touches anyObject] locationInView:self];
     self.preMidllePoint2 = curPoint;
+    self.lastPoint = curPoint;
     self.path = [[SPBezierPath alloc] init];
     if (self.isEraser) {
         self.path.pathColor = [UIColor whiteColor];
@@ -66,10 +68,11 @@
     CGPoint midllePoint = [self getMidllePointPrePoint:prePoint curPoint:curPoint];
     CGPoint midllePoint1 = [self getMidllePointPrePoint:prePoint curPoint:midllePoint];
     CGPoint midllePoint2 = [self getMidllePointPrePoint:curPoint curPoint:midllePoint];
-    [self.path addQuadCurveToPoint:midllePoint1 controlPoint:[self getMidllePointPrePoint:self.preMidllePoint2 curPoint:midllePoint1]];
-    [self.path addLineToPoint:midllePoint1];
+    CGPoint midelControlPoint = [self getMidllePointPrePoint:self.lastPoint curPoint:[self getMidllePointPrePoint:self.preMidllePoint2 curPoint:midllePoint1]];
+    [self.path addCurveToPoint:midllePoint1 controlPoint1:[self getMidllePointPrePoint:self.preMidllePoint2 curPoint:midelControlPoint] controlPoint2:[self getMidllePointPrePoint:midelControlPoint curPoint:midllePoint1]];
     [self.path addLineToPoint:midllePoint2];
     self.preMidllePoint2 = midllePoint2;
+    self.lastPoint = curPoint;
     CGFloat margin = 80;
     [self setNeedsDisplayInRect:CGRectMake(MIN(prePoint.x, curPoint.x) - margin, MIN(prePoint.y, curPoint.y) - margin, MAX(prePoint.x, curPoint.x) - MIN(prePoint.x, curPoint.x) + 2 * margin, MAX(prePoint.y, curPoint.y) - MIN(prePoint.y, curPoint.y) + 2 * margin)];
 }
