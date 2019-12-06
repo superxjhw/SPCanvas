@@ -35,7 +35,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     SPCanvas *canvas = [[SPCanvas alloc] init];
-    canvas.lineWidth = 1;
+    canvas.lineWidth = 2;
     canvas.pathColor = [UIColor blueColor];
     canvas.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:canvas];
