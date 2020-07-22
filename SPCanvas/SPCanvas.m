@@ -53,10 +53,8 @@
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint prePoint = [touch previousLocationInView:self];
-    CGPoint curPoint = [touch locationInView:self];
-    CGPoint midllePoint = [self getMidllePointPrePoint:prePoint curPoint:curPoint];
+    CGPoint curPoint = [[touches anyObject] locationInView:self];
+    CGPoint midllePoint = [self getMidllePointPrePoint:self.lastPoint curPoint:curPoint];
     [self.path addQuadCurveToPoint:midllePoint controlPoint:self.lastPoint];
     // 绘制区域 + 10 只是为了处理拐角 > 270° 的情况
     CGFloat margin = self.path.lineWidth / 2 + 10;
